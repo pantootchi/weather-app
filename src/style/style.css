@@ -7,7 +7,7 @@ body {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 120%;
-  background: #222 url("https://source.unsplash.com/1600x900/?landscape") no-repeat;
+  background: #222 no-repeat;
   background-size: cover;
 }
 
@@ -67,9 +67,13 @@ h1.temp {
 
 .flex {
   display: flex;
-  align-items: center;
+  justify-content: space-evenly;
 }
 
 .weather.loading {
   display: none;
+}
+
+.weather {
+  text-align: center;
 }/*# sourceMappingURL=style.css.map */
