@@ -43,3 +43,32 @@ document.querySelector("#search-bar").addEventListener("keyup", function(event) 
 })
 
 weather.fetchWeather("Denver");
+
+document.querySelector(".temp").addEventListener("click", function () {
+    let tempUnit = document.querySelector(".temp-unit").innerText;
+    let tempNum = document.querySelector(".temp-num").innerText;
+
+    const newUnits = convertUnit(tempUnit, tempNum);
+
+    document.querySelector(".temp-unit").innerText = newUnits.tempUnit;
+    document.querySelector(".temp-num").innerText = newUnits.newTemp;
+})
+
+const roundToHundredth = (value) => {
+    return Number(value.toFixed(2));
+  };
+
+function convertUnit (tempUnit, tempNum) {
+    let newTemp = 0;
+    if (tempUnit == "°C") {
+        newTemp = roundToHundredth(tempNum * (9/5) + 32);
+        tempUnit = "°F"
+    } else {
+        newTemp = roundToHundredth((5/9) * (tempNum - 32));
+        tempUnit = "°C"
+    }
+
+    return {newTemp, tempUnit};
+}
+
+
