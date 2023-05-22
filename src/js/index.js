@@ -11,7 +11,7 @@ let weather = {
             + this.apiKey
         ).then((response) => response.json())
         .then((data) => this.displayWeather(data))
-        .catch((error) => this.displayError())
+        .catch((error) => this.displayError(error))
 
     },
     displayWeather: function(data) {
@@ -35,6 +35,7 @@ let weather = {
         const invalidCity = document.querySelector('#search-bar').value;
         document.querySelector(".not-found").style.display = "block";
         document.querySelector(".weather").style.display = "none";
+
         document.querySelector('.invalid').innerText = `"${invalidCity}" is an invalid location. Try again.`;
     },
     search: function () {
@@ -44,18 +45,50 @@ let weather = {
 
 }
 
+// Inputting location
 document.querySelector(".search button").addEventListener("click", function () {
-    weather.search();
+    if (document.querySelector('#search-bar').value) weather.search();
 })
 
 document.querySelector("#search-bar").addEventListener("keyup", function(event) {
-    if (event.key == "Enter") {
+    if (event.key == "Enter" && document.querySelector('#search-bar').value) {
         weather.search();
     }
 })
 
-weather.fetchWeather("Denver");
+// Initiate weather page
+let geoCity = {
+    "apiKey": "BGUmTfnlpwU522FmGwA3TpuNVc89j8bs",
+    fetchCity: function(latitude, longitude) {
+        fetch ("https://api.tomtom.com/search/2/reverseGeocode/" +
+        latitude +
+        "," +
+        longitude +
+        ".json?key=" +
+        this.apiKey +
+        "&radius=100"
+        ).then((response) => response.json())
+        .then((data) => weather.fetchWeather(data.addresses[0].address.municipality))
+        .catch((error) => deniedAccess())
+    }
+}
+  
 
+function processCoords(position) {
+    let latitude = position.coords.latitude;
+    let longitude = position.coords.longitude;
+
+    geoCity.fetchCity(latitude, longitude);
+}
+
+function deniedAccess() {
+    weather.fetchWeather("Denver");
+}
+
+// Fetch Coordinates
+navigator.geolocation.getCurrentPosition(processCoords, deniedAccess)
+
+  
 // Celsius and Farenheight Toggle Coverter
 document.querySelector(".temp").addEventListener("click", function () {
     let tempUnit = document.querySelector(".temp-unit").innerText;
