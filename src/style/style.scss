@@ -32,6 +32,7 @@ body {
     width: 100%;
     max-width: 420px;
     margin: 1em;
+    cursor: default;
 }
 
 .search {
@@ -139,7 +140,6 @@ i {
 }
 
 // Hover Animation taken from Hover.css library
-
 .hvr-grow {
     vertical-align: middle;
     -webkit-transform: perspective(1px) translateZ(0);
