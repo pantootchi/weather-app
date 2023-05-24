@@ -9,16 +9,19 @@
     box-sizing: border-box;
 }
 
-body {
+@mixin flexCenter() {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items:center;
+}
+
+body {
     height: 100vh;
-    margin: 0;
     font-family: 'Open Sans', sans-serif;
     font-size: 120%;
     background: #222 no-repeat;
     background-size: cover;
+    @include flexCenter();
 }
 
 .card {
@@ -32,18 +35,14 @@ body {
 }
 
 .search {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flexCenter();
 }
 
 button {
     margin: 0.5em;
     border-radius: 50%;
-    border: none;
     height: 44px;
     width: 44px;
-    outline: none;
     background: #7c7c7c2b;
     color: white;
     cursor: pointer;
@@ -55,8 +54,6 @@ button {
 }
 
 #search-bar {
-    border: none;
-    outline: none;
     padding: 0.4em 1em;
     border-radius: 24px;
     background: #7c7c7c2b;
@@ -73,11 +70,42 @@ button {
     width: 1px;
     height: 1px;
     overflow: hidden;
+}
+
+.weather.loading {
+    visibility: hidden;
+    max-height: 20px;
+    position: relative;
+
+    &:after {
+        visibility: visible;
+        content: "Loading weather...";
+        color: white;
+        position: absolute;
+        top: 0;
+        left: 20px;
     }
+}
+
+.weather {
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+
+    > h1:first-of-type {
+        margin: 0.5em 0;
+    }
+}
+
+.not-found {
+    display: none;
+    margin-top: 1em;
+}
 
 h1.temp {
     margin: 0;
     cursor: pointer;
+    display: inline-block;
 }
 
 .description {
@@ -88,18 +116,7 @@ h1.temp {
 .flex {
     display: flex;
     justify-content: space-evenly;
-}
-
-.weather.loading {
-    display: none;
-}
-
-.weather {
-    text-align: center;
-}
-
-.not-found {
-    display: none;
+    gap: 1em;
     margin-top: 1em;
 }
 
@@ -121,10 +138,9 @@ i {
     align-self: center;
 }
 
-// Hover Animation
+// Hover Animation taken from Hover.css library
 
 .hvr-grow {
-    // display: inline-block;
     vertical-align: middle;
     -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);

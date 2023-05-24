@@ -16,7 +16,7 @@ let weather = {
     },
     displayWeather: function(data) {
         document.querySelector(".not-found").style.display = "none";
-        document.querySelector(".weather").style.display = "block";
+        document.querySelector(".weather").style.display = "flex";
         const {name} = data;
         const {icon, description} = data.weather[0];
         const {temp, humidity} = data.main;
@@ -72,7 +72,7 @@ let geoCity = {
         .catch((error) => deniedAccess())
     }
 }
-  
+
 
 function processCoords(position) {
     let latitude = position.coords.latitude;
