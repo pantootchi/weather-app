@@ -3,21 +3,21 @@ import {convertUnit} from './domFunctions';
 import weather from './apiFunctions';
 
 // Inputting location
-document.querySelector(".search button").addEventListener("click", function () {
+document.querySelector(".search button").addEventListener("click", () => {
     if (document.querySelector('#search-bar').value) weather.search();
 })
 
-document.querySelector("#search-bar").addEventListener("keyup", function(event) {
-    if (event.key == "Enter" && document.querySelector('#search-bar').value) {
+document.querySelector("#search-bar").addEventListener("keyup", (event) => {
+    if (event.key === "Enter" && document.querySelector('#search-bar').value) {
         weather.search();
     }
 })
 
   
 // Celsius and Farenheight Toggle Coverter
-document.querySelector(".temp").addEventListener("click", function () {
-    let tempUnit = document.querySelector(".temp-unit").innerText;
-    let tempNum = document.querySelector(".temp-num").innerText;
+document.querySelector(".temp").addEventListener("click", () => {
+    const tempUnit = document.querySelector(".temp-unit").innerText;
+    const tempNum = document.querySelector(".temp-num").innerText;
 
     const newUnits = convertUnit(tempUnit, tempNum);
 

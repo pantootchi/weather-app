@@ -1,11 +1,10 @@
+/* eslint-disable no-param-reassign */
 
-const roundToHundredth = (value) => {
-    return Number(value.toFixed(2));
-};
+const roundToHundredth = (value) => Number(value.toFixed(2));
 
 function convertUnit (tempUnit, tempNum) {
     let newTemp = 0;
-    if (tempUnit == "°C") {
+    if (tempUnit === "°C") {
         newTemp = roundToHundredth(tempNum * (9/5) + 32);
         tempUnit = "°F"
     } else {
@@ -16,8 +15,8 @@ function convertUnit (tempUnit, tempNum) {
     return {newTemp, tempUnit};
 }
 
-let weatherDOM = {
-    displayWeather: function(data) {
+const weatherDOM = {
+    displayWeather(data) {
         document.querySelector(".not-found").style.display = "none";
         document.querySelector(".weather").style.display = "flex";
         const {name} = data;
@@ -25,16 +24,16 @@ let weatherDOM = {
         const {temp, humidity} = data.main;
         const {speed} = data.wind;
         document.querySelector(".city").innerText = name;
-        document.querySelector(".icon").src = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
+        document.querySelector(".icon").src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
         document.querySelector(".temp-num").innerText = temp;
         document.querySelector(".temp-unit"). innerText = "°C";
-        document.querySelector(".humidity").innerText = humidity + "%";
+        document.querySelector(".humidity").innerText = `${humidity}%`;
         document.querySelector(".description").innerText = description;
-        document.querySelector(".wind").innerText = speed + " km/h";
+        document.querySelector(".wind").innerText = `${speed  } km/h`;
         document.querySelector(".weather").classList.remove("loading");
-        document.body.style.backgroundImage = "url('https://source.unsplash.com/1600x900/?" + description + "')"
+        document.body.style.backgroundImage = `url('https://source.unsplash.com/1600x900/?${description}')`
     },
-    displayError: function() {
+    displayError() {
         const invalidCity = document.querySelector('#search-bar').value;
         document.querySelector(".not-found").style.display = "block";
         document.querySelector(".weather").style.display = "none";
