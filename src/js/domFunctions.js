@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 
 const roundToHundredth = (value) => Number(value.toFixed(2));
 

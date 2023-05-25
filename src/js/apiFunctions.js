@@ -1,15 +1,10 @@
-/* eslint-disable no-use-before-define */
 import {weatherDOM} from './domFunctions';
 
 const weather = {
     "apiKey": "754f57af387718693ecfb4a18e6c8a57",
     fetchWeather (city) {
-        fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=${ 
-             city 
-             }&units=metric&appid=${ 
-             this.apiKey}`
-        ).then((response) => response.json())
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${this.apiKey}`)
+        .then((response) => response.json())
         .then((data) => weatherDOM.displayWeather(data))
         .catch((error) => weatherDOM.displayError(error))
 
@@ -24,7 +19,7 @@ function processCoords(position) {
     const {latitude} = position.coords;
     const {longitude} = position.coords;
 
-    geoCity.fetchCity(latitude, longitude);
+    fetchCity(latitude, longitude);
 }
 
 function deniedAccess() {
@@ -35,20 +30,33 @@ function deniedAccess() {
 navigator.geolocation.getCurrentPosition(processCoords, deniedAccess)
 
 // Initiate weather page
-const geoCity = {
-    "apiKey": "BGUmTfnlpwU522FmGwA3TpuNVc89j8bs",
-    fetchCity(latitude, longitude) {
-        fetch (`https://api.tomtom.com/search/2/reverseGeocode/${ 
-        latitude 
-        },${ 
-        longitude 
-        }.json?key=${ 
-        this.apiKey 
-        }&radius=100`
-        ).then((response) => response.json())
-        .then((data) => weather.fetchWeather(data.addresses[0].address.municipality))
-        .catch((error) => deniedAccess())
+// const geoCity = {
+//     "apiKey": "BGUmTfnlpwU522FmGwA3TpuNVc89j8bs",
+//     fetchCity(latitude, longitude) {
+//         fetch (`https://api.tomtom.com/search/2/reverseGeocode/${ 
+//         latitude 
+//         },${ 
+//         longitude 
+//         }.json?key=${ 
+//         this.apiKey 
+//         }&radius=100`
+//         ).then((response) => response.json())
+//         .then((data) => weather.fetchWeather(data.addresses[0].address.municipality))
+//         .catch((error) => deniedAccess())
+//     }
+// }
+
+async function fetchCity(latitude, longitude) {
+    const apiKey = "BGUmTfnlpwU522FmGwA3TpuNVc89j8bs";
+    try {
+        let response = await fetch (`https://api.tomtom.com/search/2/reverseGeocode/${latitude},${longitude}.json?key=${apiKey}&radius=100`);
+        let data = await response.json();
+        return await weather.fetchWeather(data.addresses[0].address.municipality);
+
+    } catch (error) {
+        deniedAccess();
     }
 }
+
 
 export default weather;
